@@ -1,0 +1,208 @@
+/*
+**Bike-Share Navigate Speedy Success**
+* Introduction
+Cyclist a fiction bike share business give bike on rent for plan of one trip, one day 
+and yearly plan making more flexible in price points. But head of marketing division 
+belives the profit of this company lies in the converting a regular i.e. one trip or one day
+ride in annual rider i.e.who took annual subscription.
+Before makin any move on the thought he/she want to make sure the he is right by making analysis
+using the data. He/she given the task to data analyst team to find more about casual and annual rider. 
+As a part of google data analytics certificate, the process is complete in six pase 
+ie. Ask, prepare, process, analyse, share and act.
+
+The detail description of phases given in subsequent chapter.
+**Ask**
+
+Three questions will guide the future marketing program:
+1.  How do annual members and casual riders use Cyclistic bikes differently?
+2.  Why would casual riders buy Cyclistic annual memberships?
+3.  How can Cyclistic use digital media to influence casual riders to become members?
+
+The task here to find the pattern in ridership of casual and annual member.
+The deliverable in this phase is to make clear  statement of business task. 
+( business task is the question or problem data analysis resolve for abusiness )
+Business taske- The task here to find the pattern in ridership of casual and annual member.
+Apart from the defineing the business task other major deliverable is the set of questions
+for more understanding of problem, identify the stakeholders, 
+question related to business task and their possible anser from relevant source.
+
+**Prepare**
+
+In this phase the we have to prepare the dataset for finding the answer and making the data driven decision. 
+The main aim here is to find the relevant source of data, whether the data  are reliablem,complete,original,current,cited etc.
+ * check for biasness  and data ethics also includes in the phase of prepare.
+ * the link to data and it's authenciy can be found out here :- https://divvy-tripdata.s3.amazonaws.com/index.html and
+ licence to use data here :- https://ride.divvybikes.com/data-license-agreement
+
+ **Process**
+
+Once the data has prepared, the next task is to clean data and make the final data set for analysis. 
+The common practice of data cleaning include following:-
+1. Check for null values
+1. Check for spell error
+1.Consistent data formating
+1.sorting and filter relevant data 
+1.triming of spaces
+1.addition or removal or merging of column
+1.and many more
+
+Making the track records of data cleaing process is good practice and helpful for other to be 
+on the same page of anaylysis.
+The following code is used for datacleaing
+
+**Analyse**
+
+Actual analysis on cleand data done here like finding the summerise aggregate results which may
+include mean, mode , median, max, min, average, sd, covariance, etc. and arrive to answer which analyst were seeking. and 
+in last store in a new file to make the visualization for sharing phas.
+
+Share and act part done using the result of analyse phase using sql in excel.
+*/
+
+--first combined the all the tweleve month ride details using cte 
+
+with mar21_to_feb22_rides as 
+(
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id ,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..march_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..april_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..may_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..june_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..july_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng,member_casual 
+from [case-study]..august_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..september_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..october_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..november_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..december_21
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..january_22
+union all
+select ride_id,rideable_type,started_at,ended_at,cast(start_station_id as nvarchar) as start_station_id,
+		cast(end_station_id as nvarchar) as end_station_id,
+		start_station_name,end_station_name,start_lat,start_lng,end_lat,end_lng ,member_casual
+from [case-study]..february_22 ),
+
+/*after combining the data, we have to clean and modify the table like date and time separation for further analysis ,
+--weekdays from date and drop the unnecessary thing for now*/
+
+cleaned_ride_data as
+(
+select ride_id, convert(date,started_at) as start_date,CONVERT(time(0),started_at ) as start_time,
+		convert(date,ended_at) as end_date,
+		CONVERT(time(0),ended_at ) as end_time, datepart(weekday,started_at) as start_day,
+		datename(month,started_at) as month, datepart(month,started_at) as mn,
+		trim(start_station_name) as start_stn_name,trim(end_station_name) as end_stn_name, member_casual
+from mar21_to_feb22_rides
+),
+
+/*once the modified data is available for analysis the next part is to analyses the data by calculation ride length 
+and categorize them 
+by avg ride length by memeber and casual member on days of week*/ 
+
+
+/*ride_length_data as (
+select ride_id, DATEDIFF(minute, start_time,end_time) as ride_lngth
+from cleaned_ride_data ),
+*/
+--below query only to shows the multiple cte can be worjk in joins as well but it makes the process  slow
+
+/*select c.ride_id,c.start_day, c.month,l.ride_lngth,c.start_stn_name,c.end_stn_name,c.member_casual
+from cleaned_ride_data as c inner join ride_length_data as l on 
+		c.ride_id=l.ride_id
+where l.ride_lngth > 0
+*/
+
+proceesed_data as (
+select ride_id, start_time, end_time, DATEDIFF(minute, start_time,end_time) as ride_length,start_day,month, mn,
+		start_stn_name, end_stn_name,member_casual
+from cleaned_ride_data
+where len(ride_id) = 16 and start_stn_name is not null and end_stn_name is not null 
+-- condition for null value of latitute and longitutde already check and found to have no null value
+
+)
+
+
+
+--ride-lenth greater than 0
+select ride_id, start_time, end_time, DATEDIFF(minute, start_time,end_time) as ride_length,start_day,month,
+		start_stn_name, end_stn_name,member_casual
+from proceesed_data
+where ride_length >0 
+
+
+/*
+--number of rides used by casual and member
+select member_casual,
+count(member_casual) as share
+from proceesed_data
+group by member_casual
+*/
+
+/*
+--use of avg ride lengh by casual and member over the month
+
+select member_casual,COUNT(member_casual),month,mn, avg(ride_length)
+from proceesed_data
+group by member_casual,month,mn
+order by mn
+*/
+
+/*
+--avg ride by casual and member over the weekdays
+
+select member_casual, COUNT(member_casual), avg(ride_length) as mean, start_day
+from proceesed_data
+group by member_casual,start_day
+order by start_day
+*/
+
+/*
+--most used start station
+select member_casual, COUNT(member_casual), start_stn_name,count(start_stn_name) as station_count
+from proceesed_data
+group by member_casual,start_stn_name
+having start_stn_name is not null
+order by station_count desc
+*/
+
